@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<style type="text/css">
+		/* Youtube placeholder */
+		.youtube-placeholder {width: 560px; height: 315px; background: transparent; position: relative;}
+		.youtube-preview-image {height: 315px !important; cursor: pointer;}
+		.youtube-play-button {position: absolute; top: 104px; left: 226px; cursor: pointer; z-index: 2;}
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
+	<script>
+	$(document).ready(function(){
+		$('.youtube-placeholder').youtubePlaceholder();
+	});
+	</script>
+
+
+	<script>
+	 (function ($) {
+		 var createImagePreview = function (preview) {
+			var videoId = $(preview).data('youtubeId');
+
+			var image = $('<img>').attr({
+				src: "http://img.youtube.com/vi/" + videoId + "/0.jpg",
+				width: 560,
+				height: 315
+			}).addClass('youtube-preview-image');
+
+			var play = $('<img>').attr({
+				src: 'data:image/png;base64,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',
+				width: 107,
+				height: 106
+			}).addClass('youtube-play-button');
+
+			$(preview).html(image);
+			$(preview).append(play);
+		 };
+
+		 $.fn.youtubePlaceholder = function () {
+			 return this.each(function () {
+				 createImagePreview(this);
+			 });
+		 };
+	 }(jQuery))
+	</script>
+</head>
+<body>
+
+	<div class="youtube-placeholder" data-youtube-id="SEyNApYnmgg"></div>
+</body>
+</html>
