@@ -6,7 +6,7 @@
 			height: 315
 		},
 		button: {
-			src: 'icon-youtube-play.png',
+			src: 'img/icon-youtube-play.png',
 			width: 107,
 			height: 106
 		}
@@ -15,6 +15,8 @@
 	function Plugin(element, options) {
 		this.element = element;
 		this.options = $.extend({}, defaults, options);
+		this.options.video.width = $(this).data('youtubeWidth');
+		this.options.video.height = $(this).data('youtubeHeight');
 		this._defaults = defaults;
 		this._name = pluginName;
 		this.init();
@@ -24,9 +26,11 @@
 		init: function() {
 			var me = this;
 
-			this.createImagePreview(this.element, this.options);
+			me.createImagePreview(me.element, this.options);
 
-			$('.youtube-preview-image, .youtube-play-button').on('click', me.swapPlaceholderWithIframe);
+			$(me.element).on('click', '.youtube-preview-image, .youtube-play-button', function (event) {
+				me.swapPlaceholderWithIframe(me.element, me.options);
+			});
 		},
 		createImagePreview: function(element, options) {
 			var videoId = $(element).data('youtubeId');
@@ -43,18 +47,17 @@
 			$(element).append(play);
 		},
 		swapPlaceholderWithIframe: function (element, options) {
-			var preview = $(this).closest('.youtube-placeholder');
-			var videoId = $(preview).data('youtubeId');
+			var videoId = $(element).data('youtubeId');
 
 			var iframe = $('<iframe></iframe>').attr({
-				width: 560,
-				height: 315,
+				width: options.video.width,
+				height: options.video.height,
 				src: "http://www.youtube.com/embed/" + videoId + "?rel=0&autoplay=1",
 				frameborder: 0,
 				allowfullscreen: true
 			})
 
-			$(preview).html(iframe);
+			$(element).html(iframe);
 		},
 	};
 
